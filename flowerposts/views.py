@@ -62,4 +62,16 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
             return Response('an unknown error occurred', 500)
 
     #Destroy: Method DELETE
+    def delete(self, request, id):
+        try:
+            flowerpost_to_delete = FlowerPost.objects.get(pk=id)
+            flowerpost_to_delete.delete()
+            return Response(status=204)
+        except FlowerPost.DoesNotExist as e:
+            print(e)
+            return Response('Flowerpost not found', 404)
+        except Exception as e:
+            print(e)
+            return Response('An unknown error occurred', 500)
+
     
