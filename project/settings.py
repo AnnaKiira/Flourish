@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jwt_auth',
-    'flowerposts'
+    'flowerposts',
+    'comments'
 ]
 
 MIDDLEWARE = [
