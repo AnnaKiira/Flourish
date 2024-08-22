@@ -46,6 +46,20 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
             return Response({'message': 'An error occurred'}, 500)
 
     #Update: Method PUT
+    def put(self, request, id):
+        try:
+            flowerpost_to_update = FlowerPost.objects.get(pk=id)
+            serialized_flowerpost = FlowerPostSerializer(flowerpost_to_update, data=request.data, partial=True)
+            if serialized_flowerpost.is_valid():
+                serialized_flowerpost.save()
+                return Response(serialized_flowerpost.data)
+            return Response(serialized_flowerpost.errors,400)
+        except FlowerPost.DoesNotExist as e:
+            print(e)
+            return Response('flowerpost not found', 404)
+        except Exception as e:
+            print(e)
+            return Response('an unknown error occurred', 500)
 
     #Destroy: Method DELETE
     
