@@ -5,9 +5,11 @@ from .models import FlowerPost
 from .serializers.common import FlowerPostSerializer
 from utils.decorators import handle_exceptions
 from flowerposts.serializers.populated import PopulatedFlowerPostSerializer
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # Create your views here.
 class FlowerPostListCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     #INDEX Route
     @handle_exceptions
     def get(self, request):
