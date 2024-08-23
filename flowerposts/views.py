@@ -6,6 +6,8 @@ from .serializers.common import FlowerPostSerializer
 from utils.decorators import handle_exceptions
 from flowerposts.serializers.populated import PopulatedFlowerPostSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+#from rest_framework.exceptions import PermissionDenied
+from utils.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class FlowerPostListCreateView(APIView):
@@ -35,6 +37,7 @@ class FlowerPostListCreateView(APIView):
 
 
 class FlowerPostRetrieveUpdateDestroyView(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
     #Retrieve: Method GET
     @handle_exceptions
     def get(self, request, pk):
@@ -48,6 +51,7 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
     @handle_exceptions
     def put(self, request, pk):
         flowerpost_to_update = FlowerPost.objects.get(pk=pk)
+        self.check_object_permissions(request, flowerpost_to_update)
         serialized_flowerpost = FlowerPostSerializer(flowerpost_to_update, data=request.data, partial=True)
         if serialized_flowerpost.is_valid():
             serialized_flowerpost.save()
@@ -59,6 +63,7 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
     @handle_exceptions
     def delete(self, request, pk):
         flowerpost_to_delete = FlowerPost.objects.get(pk=pk)
+        self.check_object_permissions(request, flowerpost_to_delete)
         flowerpost_to_delete.delete()
         return Response(status=204)
 
