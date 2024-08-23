@@ -10,6 +10,11 @@ class FlowerPost(models.Model):
     )
     upload_image = models.URLField()
     text = models.TextField(max_length=1000)
+    owner = models.ForeignKey(
+        'jwt_auth.User',
+        on_delete=models.CASCADE,
+        related_name='flowerposts_created'
+    )
 
     def __str__(self):
         return f'{self.title}'

@@ -22,6 +22,7 @@ class FlowerPostListCreateView(APIView):
     #CREATE Route
     @handle_exceptions
     def post(self, request):
+        request.data['owner'] = request.user.id
         flowerpost_to_create = FlowerPostSerializer(data=request.data)
         if flowerpost_to_create.is_valid():
             #data is valid
