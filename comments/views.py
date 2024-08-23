@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import Comment
 from .serializers.common import CommentSerializer
 from rest_framework.permissions import IsAuthenticated
+from utils.permissions import IsOwnerOrReadOnly
 from utils.decorators import handle_exceptions
 
 # Create your views here.
@@ -21,6 +22,7 @@ class CommentCreateView(APIView):
     
 
 class CommentDestroyView(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
     #Delete comment /comments/:pk/
     @handle_exceptions
     def delete(self, request, pk):
