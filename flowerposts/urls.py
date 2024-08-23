@@ -4,5 +4,5 @@ from .views import FlowerPostRetrieveUpdateDestroyView
 
 urlpatterns = [
     path('', FlowerPostListCreateView.as_view()),
-    path('<int:id>/', FlowerPostRetrieveUpdateDestroyView.as_view())
+    path('<int:pk>/', FlowerPostRetrieveUpdateDestroyView.as_view())
 ]

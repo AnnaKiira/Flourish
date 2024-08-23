@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'jwt_auth',
     'flowerposts',
-    'comments'
+    'comments',
+    'categories'
 ]
 
 MIDDLEWARE = [

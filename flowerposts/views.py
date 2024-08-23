@@ -34,8 +34,8 @@ class FlowerPostListCreateView(APIView):
 class FlowerPostRetrieveUpdateDestroyView(APIView):
     #Retrieve: Method GET
     @handle_exceptions
-    def get(self, request, id):
-        flowerpost = FlowerPost.objects.get(pk=id)
+    def get(self, request, pk):
+        flowerpost = FlowerPost.objects.get(pk=pk)
         serialized_flowerpost = PopulatedFlowerPostSerializer(flowerpost)
         #print('captured value:', id)
         return Response(serialized_flowerpost.data)
@@ -43,8 +43,8 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
 
     #Update: Method PUT
     @handle_exceptions
-    def put(self, request, id):
-        flowerpost_to_update = FlowerPost.objects.get(pk=id)
+    def put(self, request, pk):
+        flowerpost_to_update = FlowerPost.objects.get(pk=pk)
         serialized_flowerpost = FlowerPostSerializer(flowerpost_to_update, data=request.data, partial=True)
         if serialized_flowerpost.is_valid():
             serialized_flowerpost.save()
@@ -54,8 +54,8 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
 
     #Destroy: Method DELETE
     @handle_exceptions
-    def delete(self, request, id):
-        flowerpost_to_delete = FlowerPost.objects.get(pk=id)
+    def delete(self, request, pk):
+        flowerpost_to_delete = FlowerPost.objects.get(pk=pk)
         flowerpost_to_delete.delete()
         return Response(status=204)
 
