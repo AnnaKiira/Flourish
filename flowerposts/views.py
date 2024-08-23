@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import FlowerPost
 from .serializers.common import FlowerPostSerializer
 from utils.decorators import handle_exceptions
+from flowerposts.serializers.populated import PopulatedFlowerPostSerializer
 
 # Create your views here.
 class FlowerPostListCreateView(APIView):
@@ -14,6 +15,7 @@ class FlowerPostListCreateView(APIView):
         serialized_flowerposts = FlowerPostSerializer(flowerposts, many=True)
         #print(serialized_flowerposts.data)
         return Response(serialized_flowerposts.data)
+    
     
     #CREATE Route
     @handle_exceptions
@@ -34,9 +36,10 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
     @handle_exceptions
     def get(self, request, id):
         flowerpost = FlowerPost.objects.get(pk=id)
-        serialized_flowerpost = FlowerPostSerializer(flowerpost)
+        serialized_flowerpost = PopulatedFlowerPostSerializer(flowerpost)
         #print('captured value:', id)
         return Response(serialized_flowerpost.data)
+    
 
     #Update: Method PUT
     @handle_exceptions

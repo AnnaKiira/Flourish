@@ -15,3 +15,12 @@ class CommentCreateView(APIView):
             comment_to_create.save()
             return Response(comment_to_create.data, 201)
         return Response(comment_to_create.errors, 400)
+    
+
+class CommentDestroyView(APIView):
+    #Delete comment /comments/:pk/
+    @handle_exceptions
+    def delete(self, request, pk):
+        comment_to_delete = Comment.objects.get(pk=pk)
+        comment_to_delete.delete()
+        return Response(status=204)
