@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('flowerposts/', include('flowerposts.urls')),
     path('comments/', include('comments.urls')),
-    path('categories/', include('categories.urls'))
+    path('categories/', include('categories.urls')),
+    path('auth/', include('jwt_auth.urls'))
 ]
