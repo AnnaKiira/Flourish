@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .serializers.common import UserSerializer
 from utils.decorators import handle_exceptions
+from rest_framework_simplejwt.tokens import RefreshToken
 User = get_user_model()
 
 # Create your views here.
@@ -11,8 +12,15 @@ User = get_user_model()
 class SignUpView(APIView):
     @handle_exceptions
     def post(self, request):
+        print('Received signup data:', request.data)
         user_to_create = UserSerializer(data=request.data)
         if user_to_create.is_valid():
-            user_to_create.save()
-            return Response({ 'message': 'Sign Up Successful'}, 201)
+            user = user_to_create.save()
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'message': 'Sign Up Successful',
+                'access': str(refresh.access_token),
+                'refresh': str(refresh)
+            }, status=201)
+        print('Signup validation errors:', user_to_create.errors)
         return Response(user_to_create.errors, 400)
