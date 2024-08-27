@@ -16,7 +16,7 @@ class FlowerPostListCreateView(APIView):
     @handle_exceptions
     def get(self, request):
         flowerposts = FlowerPost.objects.all()
-        serialized_flowerposts = FlowerPostSerializer(flowerposts, many=True)
+        serialized_flowerposts = PopulatedFlowerPostSerializer(flowerposts, many=True)
         #print(serialized_flowerposts.data)
         return Response(serialized_flowerposts.data)
     
