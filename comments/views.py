@@ -10,7 +10,6 @@ from utils.decorators import handle_exceptions
 # Create your views here.
 class CommentCreateView(APIView):
     permission_classes = [IsAuthenticated]
-    #Create Comment /comments
     @handle_exceptions
     def post(self, request):
         request.data['owner'] = request.user.id
@@ -23,7 +22,6 @@ class CommentCreateView(APIView):
 
 class CommentDestroyView(APIView):
     permission_classes = [IsOwnerOrReadOnly]
-    #Delete comment /comments/:pk/
     @handle_exceptions
     def delete(self, request, pk):
         comment_to_delete = Comment.objects.get(pk=pk)

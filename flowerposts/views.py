@@ -6,7 +6,6 @@ from .serializers.common import FlowerPostSerializer
 from utils.decorators import handle_exceptions
 from flowerposts.serializers.populated import PopulatedFlowerPostSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-#from rest_framework.exceptions import PermissionDenied
 from utils.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
@@ -17,7 +16,6 @@ class FlowerPostListCreateView(APIView):
     def get(self, request):
         flowerposts = FlowerPost.objects.all()
         serialized_flowerposts = PopulatedFlowerPostSerializer(flowerposts, many=True)
-        #print(serialized_flowerposts.data)
         return Response(serialized_flowerposts.data)
     
     
@@ -27,12 +25,8 @@ class FlowerPostListCreateView(APIView):
         request.data['owner'] = request.user.id
         flowerpost_to_create = FlowerPostSerializer(data=request.data)
         if flowerpost_to_create.is_valid():
-            #data is valid
             flowerpost_to_create.save()
             return Response(flowerpost_to_create.data, 201)
-            
-        #error occurred during validation
-        print('Validation Error:', flowerpost_to_create.errors)
         return Response(flowerpost_to_create.errors, 400)
 
 
@@ -43,7 +37,6 @@ class FlowerPostRetrieveUpdateDestroyView(APIView):
     def get(self, request, pk):
         flowerpost = FlowerPost.objects.get(pk=pk)
         serialized_flowerpost = PopulatedFlowerPostSerializer(flowerpost)
-        #print('captured value:', id)
         return Response(serialized_flowerpost.data)
     
 

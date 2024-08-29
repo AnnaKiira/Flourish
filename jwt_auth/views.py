@@ -12,7 +12,6 @@ User = get_user_model()
 class SignUpView(APIView):
     @handle_exceptions
     def post(self, request):
-        print('Received signup data:', request.data)
         user_to_create = UserSerializer(data=request.data)
         if user_to_create.is_valid():
             user = user_to_create.save()
@@ -22,5 +21,4 @@ class SignUpView(APIView):
                 'access': str(refresh.access_token),
                 'refresh': str(refresh)
             }, status=201)
-        print('Signup validation errors:', user_to_create.errors)
         return Response(user_to_create.errors, 400)
